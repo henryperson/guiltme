@@ -1,12 +1,19 @@
 {
-  "name": "Hello World!",
-  "description": "My first Chrome App.",
-  "version": "0.1",
   "manifest_version": 2,
-  "app": {
-    "background": {
-      "scripts": ["background.js"]
-    }
+
+  "name": "Getting started example",
+  "description": "This extension shows a Google Image search result for the current page",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "assets/icon.png",
+    "default_popup": "assets/popup.html"
   },
-  "icons": { "16": "assets/calculator-16.png", "128": "assets/calculator-128.png" }
+  "chrome_url_overrides": {
+    "newtab": "window.html"
+  },
+  "permissions": [
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ]
 }
