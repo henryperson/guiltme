@@ -1,8 +1,5 @@
-chrome.app.runtime.onLaunched.addListener(function() {
-  chrome.app.window.create('window.html', {
-    'bounds': {
-      'width': 400,
-      'height': 500
-    }
-  });
+chrome.tabs.onActivated.addListener(function(activeInfo){
+	var seconds = new Date().getTime() / 1000;
+	var id = activeInfo.tabId;
+	console.log(id);
 });
