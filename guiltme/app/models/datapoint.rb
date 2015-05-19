@@ -1,9 +1,7 @@
 class Datapoint < ActiveRecord::Base
-  attr_accessible :url
+  attr_accessible :url, :classification
   belongs_to :classification
-  # after_create :
+  validates_presence_of :classification, :url
+  validates_uniqueness_of :url
 
-  # def create(url, classification)
-
-  # end
 end

@@ -3,6 +3,7 @@ class Vector < ActiveRecord::Base
   serialize :weights
   belongs_to :classification
   after_initialize :initialize_weights
+  
 
   def initialize_weights
   	self.weights = Array.new(FeatureVectorCreator.size) { 0 }
