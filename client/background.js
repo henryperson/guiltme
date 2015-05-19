@@ -1,10 +1,7 @@
 var instanceVars = {
 	last_time: new Date().getTime() / 1000,
-	last_url: "example.com",
-	url_to_time: {
-		"current_url": 0
-	},
-
+	last_url: "chrome://newtab/",
+	url_to_time: {},
 	update: function(current_url){
 		var now = new Date().getTime() / 1000;
 		if(instanceVars.url_to_time.url==undefined){
@@ -14,10 +11,14 @@ var instanceVars = {
 		}
 		instanceVars.last_url = current_url;
 		instanceVars.last_time = now;
+	}, 
+	send_request: function(){
+		url_to_time["chrome://newtab/"] = undefined;
+		var jsonObject = JSON.stringify(instanceVars.url_to_time);
+		//make request to web server with json object
+
 	}
-
 }
-
 chrome.tabs.onActivated.addListener(function(activeInfo){
 	var tabId = activeInfo.tabId;
 	chrome.tabs.get(tabId, function(tab){
@@ -40,7 +41,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 });
 
 chrome.windows.onFocusChanged.addListener(function(windowId){
-	chrome.windows.get(windowId, {"populate": true},function(window){
+	chrome.windows.get(windowId,function(window){
 		for(i=0; i< window.tabs.length; i++){
 			var tab =window.tabs[i];
 			if(tab.active){
@@ -52,3 +53,5 @@ chrome.windows.onFocusChanged.addListener(function(windowId){
 		}
 	});
 });
+
+
