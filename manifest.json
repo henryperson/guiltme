@@ -12,7 +12,9 @@
   "background": {
     "scripts": ["background.js"]
   },
+
   "permissions": [
+    "tabs",
     "activeTab",
     "https://ajax.googleapis.com/"
   ]
