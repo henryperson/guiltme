@@ -3,7 +3,7 @@ class Vector < ActiveRecord::Base
   serialize :weights
   belongs_to :classification
   after_initialize :initialize_weights
-  
+
 
   def initialize_weights
   	self.weights = Array.new(FeatureVectorCreator.size) { 0 }
@@ -20,6 +20,20 @@ class Vector < ActiveRecord::Base
   		sum+=weight1*weight2
   	end
   	sum
+  end
+
+  def add(other)
+  	other.weights.each_with_index do |weight, i|
+  		self.weights[i] -= weight
+  	end
+  	self.save
+  end
+
+  def subtract(other)
+  	other.weights.each_with_index do |weight, i|
+  		self.weights[i] += weight
+  	end
+  	self.save
   end
 
 end
