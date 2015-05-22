@@ -26,15 +26,15 @@ class FeatureVectorCreator
 		# All of the following methods will be features, done in alphabetical ordering. Include an 'f_#_' before each one.
 		private
 		def f_1_bias(url)
-			1
+			0
 		end
 
 		def f_2_expectation_domain_name_is_work(url)
-			DomainCounts.get_expectation(url, "work", 0)
+			DomainCounts.get_expectation(url, "work", 1)
 		end
 
 		def f_3_expectation_domain_name_is_procrastination(url)
-			DomainCounts.get_expectation(url, "procrastination", 0)
+			DomainCounts.get_expectation(url, "procrastination", 1)
 		end
 
 	end

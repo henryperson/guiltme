@@ -38,11 +38,11 @@ class DomainCounts < ActiveRecord::Base
 
   def self.get_expectation(url, classification_name, laplace_smoothing_factor)
     domain_name = get_host_without_www(url)
-    puts domain_name
     domain_counts = DomainCounts.find_by_domain_name(domain_name)
-    puts domain_counts.counts
-    laplace_denominator = Classification.all.size * laplace_smoothing_factor + domain_counts.total_counts
-    (domain_counts.counts[classification_name] + laplace_smoothing_factor).to_f / laplace_denominator
+    total_counts = domain_counts.nil? ? 0 : domain_counts.total_counts
+    classification_counts = domain_counts.nil? ? 0 : domain_counts.counts[classification_name]
+    laplace_denominator = Classification.all.size * laplace_smoothing_factor + total_counts
+    (classification_counts + laplace_smoothing_factor).to_f / laplace_denominator
   end
 
 

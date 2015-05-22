@@ -23,6 +23,30 @@ class Vector < ActiveRecord::Base
   	self.weights.size
   end
 
+  def -(other)
+  	vector = Vector.new
+  		self.weights.zip(other.weights).each do |weight1, weight2|
+  			vector << weight2 - weight1
+  		end
+  	vector
+  end
+
+  def +(other)
+  	vector = Vector.new
+  		self.weights.zip(other.weights).each do |weight1, weight2|
+  			vector << weight2 + weight1
+  		end
+  	vector
+  end
+
+  def constant_mult(constant)
+  	vector = Vector.new
+  	self.weights.each do |weight|
+  		vector << weight * 2
+  	end
+  	vector
+  end
+
   def *(other)
   	sum = 0
   	self.weights.zip(other.weights).each do |weight1, weight2|
@@ -36,8 +60,8 @@ class Vector < ActiveRecord::Base
 
   def add(other)
   	other.weights.each_with_index do |weight, i|
-  		if i < self.weight.size
-  			self.weights[i] -= weight
+  		if i < self.weights.size
+  			self.weights[i] += weight
   		end
   	end
   	self.save
@@ -46,7 +70,7 @@ class Vector < ActiveRecord::Base
   def subtract(other)
   	other.weights.each_with_index do |weight, i|
   		if i < self.weights.size
-  			self.weights[i] += weight
+  			self.weights[i] -= weight
   		end
   	end
   	self.save
