@@ -34,7 +34,7 @@ class PerceptronLearner < Learner
 			classified_correctly = Array.new
 			classified_incorrectly = Array.new
 			Datapoint.all.each do |datapoint|
-				if datapoint.classification.name == Classifier.classify_url(datapoint.url).max_by{|k,v| v}[0]
+				if datapoint.classification.name == Classifier.classify_url(datapoint.url)
 					classified_correctly << datapoint.url
 				else
 					classified_incorrectly << datapoint.url
