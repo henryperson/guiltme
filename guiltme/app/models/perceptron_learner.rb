@@ -20,7 +20,7 @@ class PerceptronLearner < Learner
 			feature_vectors = {}
 			cycles.times do |i|
 				Datapoint.all.each do |datapoint|
-					classification = Classifier.classify_url(datapoint.url).max_by{|k,v| v}[0]
+					classification = Classifier.classify_url(datapoint.url)
 					unless classification == datapoint.classification.name
 						feature_vectors[datapoint.url] ||= FeatureVectorCreator.get_vector(datapoint.url)
 						mira_update(datapoint.classification.vector, Classification.find_by_name(classification).vector, feature_vectors[datapoint.url])

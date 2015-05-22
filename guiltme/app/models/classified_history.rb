@@ -5,7 +5,7 @@ class ClassifiedHistory
 		@url_to_time_hash = url_to_time_hash
 		@url_to_class_hash = {}
 		url_to_time_hash.keys.each do |url|
-			@url_to_class_hash[url]= Classifier.classify_url(url).max_by{|k,v| v}[0]
+			@url_to_class_hash[url]= Classifier.classify_url(url)
 		end
 	end
 
@@ -19,7 +19,7 @@ class ClassifiedHistory
 			end
 			classifications_to_times_and_urls[classification] = {'time' => sum, 'urls' => classifications_to_urls[classification]}
 		end
-		classifications_to_times_and_urls.to_json
+		classifications_to_times_and_urls
 	end
 
 end
