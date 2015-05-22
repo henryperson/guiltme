@@ -16,13 +16,14 @@ class PerceptronLearner < Learner
 			chosen_vector.subtract feature_vector.constant_mult tau
 		end
 
-		def learn(update = :mira, cycles = 100)
+		def learn(update = 'mira', cycles = 100, laplace_factor = 1)
+			function = self.methods.select {|f| f.to_s.include? update}[0]
 			feature_vectors = {}
 			cycles.times do |i|
 				Datapoint.all.each do |datapoint|
 					classification = Classifier.classify_url(datapoint.url)
 					unless classification == datapoint.classification.name
-						feature_vectors[datapoint.url] ||= FeatureVectorCreator.get_vector(datapoint.url)
+						feature_vectors[datapoint.url] ||= FeatureVectorCreator.get_vector(datapoint.url, laplace_factor)
 						mira_update(datapoint.classification.vector, Classification.find_by_name(classification).vector, feature_vectors[datapoint.url])
 					end
 				end
