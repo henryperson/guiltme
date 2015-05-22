@@ -1,3 +1,5 @@
+# require 'hello'
+
 class FeatureVectorCreator
 	class << self
 
@@ -33,6 +35,16 @@ class FeatureVectorCreator
 			functions.each_index.select{|i| functions[i].to_s.include? 'bias'}.first
 		end
 
+		def f_count_meme(url)
+			0
+			parsed_url = URI.parse(url)
+			req = Net::HTTP::Get.new(parsed_url.to_s)
+			res = Net::HTTP.start(parsed_url.host, parsed_url.port) {|http|
+  				http.request(req)
+			}
+			puts res.body
+		end
+
 		private :new
 
 		# All of the following methods will be features, done in alphabetical ordering. Include an 'f_' before each one.
@@ -49,6 +61,7 @@ class FeatureVectorCreator
 		def f_expectation_domain_name_is_procrastination(url)
 			DomainCounts.get_expectation(url, "procrastination", 1)
 		end
+
 
 	end
 end
