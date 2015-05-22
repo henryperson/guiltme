@@ -20,13 +20,13 @@ class Classification < ActiveRecord::Base
   	vector.initialize_weights_for_classification
   	vector.save
   	self.vector = vector
+  	self.save
   end
 
   def self.create_and_initialize(name)
   	classification = Classification.new
   	classification.name = name
   	classification.initialize_weight_vector
-  	classification.save
   	classification
   end
 

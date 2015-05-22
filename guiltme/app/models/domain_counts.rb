@@ -36,12 +36,6 @@ class DomainCounts < ActiveRecord::Base
     domain_counts.save
   end
 
-  def self.set_all_counts
-    Datapoint.all.each do |datapoint|
-      self.update_counts(datapoint)
-    end
-  end
-
   def self.get_expectation(url, classification_name, laplace_smoothing_factor)
     domain_name = get_host_without_www(url)
     puts domain_name

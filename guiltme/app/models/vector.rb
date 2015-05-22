@@ -26,6 +26,9 @@ class Vector < ActiveRecord::Base
   def *(other)
   	sum = 0
   	self.weights.zip(other.weights).each do |weight1, weight2|
+  		unless weight2
+  			break
+  		end
   		sum+=weight1*weight2
   	end
   	sum
@@ -33,14 +36,18 @@ class Vector < ActiveRecord::Base
 
   def add(other)
   	other.weights.each_with_index do |weight, i|
-  		self.weights[i] -= weight
+  		if i < self.weight.size
+  			self.weights[i] -= weight
+  		end
   	end
   	self.save
   end
 
   def subtract(other)
   	other.weights.each_with_index do |weight, i|
-  		self.weights[i] += weight
+  		if i < self.weights.size
+  			self.weights[i] += weight
+  		end
   	end
   	self.save
   end
