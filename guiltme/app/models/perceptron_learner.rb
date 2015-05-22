@@ -1,7 +1,7 @@
 class PerceptronLearner < Learner
 	class << self
 		# Poor implementation of when to stop
-		@@CYCLES = 10
+		@@CYCLES = 100
 
 		def instance
 			@instance ||= new
@@ -16,6 +16,8 @@ class PerceptronLearner < Learner
 						unless feature_vectors[datapoint.url]
 							feature_vectors[datapoint.url] = FeatureVectorCreator.get_vector(datapoint.url)
 						end
+						puts "feature vector weights : "+ feature_vectors[datapoint.url].weights.to_s
+						puts "datapoing vector weights: "+datapoint.classification.vector.weights.to_s
 						datapoint.classification.vector.add feature_vectors[datapoint.url]
 						Classification.find_by_name(classification).vector.subtract feature_vectors[datapoint.url]
 					end

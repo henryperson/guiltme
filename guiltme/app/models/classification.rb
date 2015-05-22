@@ -1,12 +1,12 @@
 class Classification < ActiveRecord::Base
   attr_accessible :name, :vector
-  has_one :vector
+  belongs_to :vector
   has_many :datapoints
-  after_create :initialize_weight_vector
-  validates_presence_of :name, :vector
+  validates :name, presence: true
+  validates :vector, presence: true
 
-  def self.find_or_new(name)
-  	Classification.find_by_name(name) || Classification.new(:name => name)
+  def self.find_or_create(name)
+  	Classification.find_by_name(name) || Classification.create_and_initialize(name)
   end
 
   def self.initialize_weight_vectors
@@ -15,21 +15,19 @@ class Classification < ActiveRecord::Base
   	end
   end
 
-  # Currently only increases the size of the weight vector
-  def resize_weight_vector
-  	(FeatureVectorCreator.size - self.vector.size).times do |i|
-  		self.vector << 0
-  	end
-  	self.vector.save
-  end
-
-  def self.resize_all_weight_vectors
-  	Classification.all.each do |classification|
-  		classification.resize_weight_vector
-  	end
-  end
-
   def initialize_weight_vector
-  	self.vector = Vector.new
+  	vector = self.vector || Vector.new
+  	vector.initialize_weights_for_classification
+  	vector.save
+  	self.vector = vector
   end
+
+  def self.create_and_initialize(name)
+  	classification = Classification.new
+  	classification.name = name
+  	classification.initialize_weight_vector
+  	classification.save
+  	classification
+  end
+
 end

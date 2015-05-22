@@ -1,39 +1,41 @@
 class FeatureVectorCreator
 	class << self
 
-		# Current problem – these don't specify an order, so adding new features is fine (we just add
-		# more weights to each vector) but removing them gets tricky because we don't know what cell
-		# every feature corresponds to in a weight vector.
-		@@FEATURE_FUNCTIONS = self.singleton_methods.select {|f| f.to_s.include? 'f_'}
-
 		def instance
 			@instance ||= new
 		end
 
-		def size
-			@@FEATURE_FUNCTIONS.size
+		def feature_functions
+			self.private_methods.select {|f| f.to_s.start_with? 'f_'}.sort_by { |f| f.to_s }
 		end
+
+		def size
+			feature_functions.size
+		end	
 
 		def get_vector(url)
 			feature_vector = Vector.new
-			@@FEATURE_FUNCTIONS.each do |f|
-				feature_vector << f(url)
+			feature_functions.each do |f|
+				feature_vector << self.send(f,url)
 			end
 			feature_vector
 		end
 
 		private :new
 
-		# All of the following methods will be features. Include an 'f_' before each one.
+		# All of the following methods will be features, done in alphabetical ordering. Include an 'f_#_' before each one.
 		private
-		def f_bias(url)
+		def f_1_bias(url)
 			1
 		end
 
-		def f_bias(url)
-
+		def f_2_expectation_domain_name_is_work(url)
+			DomainCounts.get_expectation(url, "work", 0)
 		end
 
-		
+		def f_3_expectation_domain_name_is_procrastination(url)
+			DomainCounts.get_expectation(url, "procrastination", 0)
+		end
+
 	end
 end

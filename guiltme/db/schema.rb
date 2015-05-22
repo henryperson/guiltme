@@ -11,26 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150519194751) do
+ActiveRecord::Schema.define(:version => 20150520231421) do
 
   create_table "classifications", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string  "name"
+    t.integer "vector_id"
   end
 
   create_table "datapoints", :force => true do |t|
-    t.string   "url"
-    t.integer  "classification_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.string  "url"
+    t.integer "classification_id"
+  end
+
+  create_table "domain_counts", :force => true do |t|
+    t.string "domain_name"
+    t.string "counts"
   end
 
   create_table "vectors", :force => true do |t|
-    t.string   "weights"
-    t.integer  "classification_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.string "weights"
   end
 
 end

@@ -1,17 +1,26 @@
 class Vector < ActiveRecord::Base
-  attr_accessible :weights
+  attr_accessible :weights, :classification
   serialize :weights
-  belongs_to :classification
+  has_one :classification
   after_initialize :initialize_weights
 
-
   def initialize_weights
-  	self.weights = Array.new(FeatureVectorCreator.size) { 0 }
+  	unless self.weights
+  		self.weights = []
+  	end
+  end
+
+  def initialize_weights_for_classification
+  	self.weights =  Array.new(FeatureVectorCreator.size) { 0 }
   	self.weights[0] = 1 #bias
   end
 
   def <<(element)
   	self.weights << element
+  end
+
+  def size
+  	self.weights.size
   end
 
   def *(other)

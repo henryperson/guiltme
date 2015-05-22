@@ -3,7 +3,6 @@ class CreateDatapoints < ActiveRecord::Migration
     create_table :datapoints do |t|
       t.string :url
       t.references :classification
-      t.timestamps
     end
   end
 end

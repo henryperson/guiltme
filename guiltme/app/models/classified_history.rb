@@ -2,7 +2,6 @@ class ClassifiedHistory
 
 	# Perceptron-based classification – can change later to K-NN or Bayes Net (perhaps as a meta variable)
 	def classify(url_to_time_hash)
-		Classification.resize_all_weight_vectors
 		@url_to_time_hash = url_to_time_hash
 		@url_to_class_hash = {}
 		url_to_time_hash.keys.each do |url|
