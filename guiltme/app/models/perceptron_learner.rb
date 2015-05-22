@@ -27,20 +27,6 @@ class PerceptronLearner < Learner
 					end
 				end
 			end
-			report
-		end
-
-		def report
-			classified_correctly = Array.new
-			classified_incorrectly = Array.new
-			Datapoint.all.each do |datapoint|
-				if datapoint.classification.name == Classifier.classify_url(datapoint.url)
-					classified_correctly << datapoint.url
-				else
-					classified_incorrectly << datapoint.url
-				end
-			end
-			{"classified_correctly" => classified_correctly, "classified_incorrectly" => classified_incorrectly}
 		end
 
 		private :new
