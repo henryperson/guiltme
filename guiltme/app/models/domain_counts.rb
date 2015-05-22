@@ -36,6 +36,7 @@ class DomainCounts < ActiveRecord::Base
     domain_counts.save
   end
 
+  # Functions like a Naive Bayes' Net 
   def self.get_expectation(url, classification_name, laplace_smoothing_factor)
     domain_name = get_host_without_www(url)
     domain_counts = DomainCounts.find_by_domain_name(domain_name)
@@ -44,7 +45,6 @@ class DomainCounts < ActiveRecord::Base
     laplace_denominator = Classification.all.size * laplace_smoothing_factor + total_counts
     (classification_counts + laplace_smoothing_factor).to_f / laplace_denominator
   end
-
 
   def self.get_host_without_www(url)
     uri = URI.parse(url)

@@ -6,10 +6,7 @@ class Datapoint < ActiveRecord::Base
 
   def self.new_or_overwrite(url, classification)
   	old_datapoint = Datapoint.find_by_url(url)
-  	old_classification = nil
-  	if old_datapoint
-  		old_classification = old_datapoint.classification
-  	end
+  	old_classification = old_datapoint ? old_datapoint.classification : nil
   	datapoint = old_datapoint || Datapoint.new(:url => url)
   	datapoint.classification = classification
   	datapoint.save

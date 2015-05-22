@@ -1,7 +1,5 @@
 class PerceptronLearner < Learner
 	class << self
-		# Poor implementation of when to stop
-		@@CYCLES = 2
 
 		def instance
 			@instance ||= new
@@ -18,9 +16,9 @@ class PerceptronLearner < Learner
 			chosen_vector.subtract feature_vector.constant_mult tau
 		end
 
-		def learn(update = :mira)
+		def learn(update = :mira, cycles = 2)
 			feature_vectors = {}
-			@@CYCLES.times do |i|
+			cycles.times do |i|
 				Datapoint.all.each do |datapoint|
 					classification = Classifier.classify_url(datapoint.url).max_by{|k,v| v}[0]
 					unless classification == datapoint.classification.name

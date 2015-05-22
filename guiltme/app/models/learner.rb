@@ -1,6 +1,5 @@
 class Learner
 	class << self
-		@@LAPLACE_FACTOR = 1
 		def instance
 			@instance ||= new
 		end

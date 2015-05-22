@@ -1,18 +1,13 @@
 class Vector < ActiveRecord::Base
   attr_accessible :weights, :classification
-  serialize :weights
+  serialize :weights, Array
   has_one :classification
-  after_initialize :initialize_weights
-
-  def initialize_weights
-  	unless self.weights
-  		self.weights = []
-  	end
-  end
 
   def initialize_weights_for_classification
   	self.weights =  Array.new(FeatureVectorCreator.size) { 0 }
-  	self.weights[0] = 1 #bias
+  	if FeatureVectorCreator.has_bias?
+  		self.weights[FeatureVectorCreator.bias_position] = 1
+  	end
   end
 
   def <<(element)
@@ -42,7 +37,7 @@ class Vector < ActiveRecord::Base
   def constant_mult(constant)
   	vector = Vector.new
   	self.weights.each do |weight|
-  		vector << weight * 2
+  		vector << weight * constant
   	end
   	vector
   end

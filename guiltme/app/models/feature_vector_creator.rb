@@ -21,19 +21,32 @@ class FeatureVectorCreator
 			feature_vector
 		end
 
-		private :new
-
-		# All of the following methods will be features, done in alphabetical ordering. Include an 'f_#_' before each one.
-		private
-		def f_1_bias(url)
-			0
+		def has_bias?
+			bias_position != -1
 		end
 
-		def f_2_expectation_domain_name_is_work(url)
+		def bias_position
+			functions = feature_functions
+			unless functions.select {|f| f.to_s.include? 'bias'}.any?
+				return false
+			end
+			functions.each_index.select{|i| functions[i].to_s.include? 'bias'}.first
+		end
+
+		private :new
+
+		# All of the following methods will be features, done in alphabetical ordering. Include an 'f_' before each one.
+		private
+		def f_bias(url)
+			1
+		end
+
+		# Hardcoded a laplace smoothing factor of 1 into both of these. Should always be > 0 to prevent divide by 0's but doesn't have to be an integer.
+		def f_expectation_domain_name_is_work(url)
 			DomainCounts.get_expectation(url, "work", 1)
 		end
 
-		def f_3_expectation_domain_name_is_procrastination(url)
+		def f_expectation_domain_name_is_procrastination(url)
 			DomainCounts.get_expectation(url, "procrastination", 1)
 		end
 
