@@ -1,7 +1,8 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+# Adds in datapoints in the same way that the POST /datapoint endpoint does
+
+datapoint_list = YAML.load_file('db/seed.yml')
+
+datapoint_list.each do |url, classification_name|
+  classification = Classification.find_or_create(classification_name)
+  Datapoint.new_or_overwrite(url, classification)
+end

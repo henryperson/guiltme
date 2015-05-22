@@ -16,7 +16,7 @@ class PerceptronLearner < Learner
 			chosen_vector.subtract feature_vector.constant_mult tau
 		end
 
-		def learn(update = :mira, cycles = 2)
+		def learn(update = :mira, cycles = 100)
 			feature_vectors = {}
 			cycles.times do |i|
 				Datapoint.all.each do |datapoint|
