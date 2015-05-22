@@ -6,6 +6,8 @@ class Learner
 
 		def learn
 			setup
+			classification_to_weights = {}
+			
 			PerceptronLearner.learn
 			report
 		end

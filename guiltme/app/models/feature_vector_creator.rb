@@ -13,10 +13,10 @@ class FeatureVectorCreator
 			feature_functions.size
 		end	
 
-		def get_vector(url)
+		def get_vector(url, laplace_factor = 1)
 			feature_vector = Vector.new
 			feature_functions.each do |f|
-				feature_vector << self.send(f,url)
+				feature_vector << self.send(f,url, laplace_factor)
 			end
 			feature_vector
 		end
@@ -37,17 +37,16 @@ class FeatureVectorCreator
 
 		# All of the following methods will be features, done in alphabetical ordering. Include an 'f_' before each one.
 		private
-		def f_bias(url)
+		def f_bias(url, laplace_factor)
 			1
 		end
 
-		# Hardcoded a laplace smoothing factor of 1 into both of these. Should always be > 0 to prevent divide by 0's but doesn't have to be an integer.
-		def f_expectation_domain_name_is_work(url)
-			DomainCounts.get_expectation(url, "work", 1)
+		def f_expectation_domain_name_is_work(url, laplace_factor)
+			DomainCounts.get_expectation(url, "work", laplace_factor)
 		end
 
-		def f_expectation_domain_name_is_procrastination(url)
-			DomainCounts.get_expectation(url, "procrastination", 1)
+		def f_expectation_domain_name_is_procrastination(url, laplace_factor)
+			DomainCounts.get_expectation(url, "procrastination", laplace_factor)
 		end
 
 	end
