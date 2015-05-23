@@ -49,5 +49,12 @@ class FeatureVectorCreator
       DomainCounts.get_expectation(url, "procrastination", laplace_factor)
     end
 
+    def f_count_meme(url)
+      parsed_url = URI.parse(url)
+      req = Net::HTTP.get(parsed_url)
+      # take out quotes, /regex patterns like this/ (escape matched slashes)
+      req.scan("meme").count
+    end
+
   end
 end

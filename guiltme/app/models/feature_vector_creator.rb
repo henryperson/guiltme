@@ -35,12 +35,13 @@ class FeatureVectorCreator
 			functions.each_index.select{|i| functions[i].to_s.include? 'bias'}.first
 		end
 
-		def f_count_meme(url)
+		def count_meme(url)
 			parsed_url = URI.parse(url)
 			req = Net::HTTP.get(parsed_url)
 			# req.scan("reddit")
 			req.scan("www.reddit.com.r.")
 		end
+
 
 
 		private :new
