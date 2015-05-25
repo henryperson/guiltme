@@ -14,4 +14,8 @@ class Datapoint < ActiveRecord::Base
     datapoint
   end
 
+  def as_json(options={})
+    {'url' => self.url, 'classification' => self.classification.name}
+  end
+
 end
