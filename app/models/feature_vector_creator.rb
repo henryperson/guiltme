@@ -11,7 +11,7 @@ class FeatureVectorCreator
 
     def size
       feature_functions.size
-    end  
+    end
 
     def get_vector(url, laplace_factor = 1)
       feature_vector = Vector.new
