@@ -1,12 +1,14 @@
 class FeatureVectorCreator
   class << self
+    
+    private :new
 
     def instance
       @instance ||= new
     end
 
     def feature_functions
-      self.private_methods.select {|f| f.to_s.start_with? 'f_'}.sort_by { |f| f.to_s }
+      self.methods.select {|f| f.to_s.start_with? 'f_'}.sort_by { |f| f.to_s }
     end
 
     def size
@@ -33,20 +35,21 @@ class FeatureVectorCreator
       functions.each_index.select{|i| functions[i].to_s.include? 'bias'}.first
     end
 
-    private :new
-
     # All of the following methods will be features, done in alphabetical ordering. Include an 'f_' before each one.
-    private
     def f_bias(url, laplace_factor)
       1
     end
 
-    def f_expectation_domain_name_is_work(url, laplace_factor)
-      DomainCounts.get_expectation(url, "work", laplace_factor)
+    Classification.all.each do |classification|
+      define_method("f_expectation_domain_name_is_#{classification.name}") do |url, laplace_factor|
+        DomainCounts.get_expectation(url, classification.name, laplace_factor)
+      end
     end
 
-    def f_expectation_domain_name_is_procrastination(url, laplace_factor)
-      DomainCounts.get_expectation(url, "procrastination", laplace_factor)
+    ['com', 'net', 'edu', 'org', 'me', 'io'].each do |extension|
+      define_method("f_extension_is_#{extension}") do |url, laplace_factor|
+        extension == URI.parse(url).host.split('.').last ? 1 : 0
+      end
     end
 
   end
