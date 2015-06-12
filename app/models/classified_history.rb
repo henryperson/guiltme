@@ -2,14 +2,16 @@ class ClassifiedHistory
 
   # Perceptron-based classification – can change later to K-NN or Bayes Net (perhaps as a meta variable)
   def classify(urls)
-    @url_to_class_hash = {}
+    @class_to_url_hash = {}
     urls.each do |url|
-      @url_to_class_hash[url]= Classifier.classify_url(url)
+      classification_name = Classifier.classify_url(url)
+      @class_to_url_hash[classification_name] ||= Array.new
+      @class_to_url_hash[classification_name].append url
     end
   end
 
   def as_json(options={})
-    @url_to_class_hash
+    @class_to_url_hash
   end
 
 end
